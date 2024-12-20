@@ -1,3 +1,3 @@
 namespace Domain.Catalog.Exceptions;
 
-public class InvalidIsbnException(string message) : Exception(message);
+public sealed class InvalidIsbnException(string message) : Exception(message);
