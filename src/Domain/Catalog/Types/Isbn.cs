@@ -1,6 +1,6 @@
-using Domain.Common.Exceptions;
+using Domain.Catalog.Exceptions;
 
-namespace Domain.Common.Types;
+namespace Domain.Catalog.Types;
 
 public sealed record Isbn
 {
