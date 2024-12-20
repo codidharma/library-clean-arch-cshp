@@ -1,4 +1,6 @@
-namespace Domain.Common;
+using Domain.Common.Exceptions;
+
+namespace Domain.Common.Types;
 
 public sealed class Author
 {

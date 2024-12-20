@@ -1,6 +1,6 @@
-using System.Text.RegularExpressions;
+using Domain.Common.Exceptions;
 
-namespace Domain.Common;
+namespace Domain.Common.Types;
 
 public sealed class Isbn
 {
@@ -11,7 +11,6 @@ public sealed class Isbn
     private Isbn(string isbn)
     {
         Value = isbn;
-
     }
 
     public static Isbn Create(string isbn)
