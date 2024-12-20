@@ -1,4 +1,4 @@
-namespace Domain.UnitTests.Common;
+namespace Domain.UnitTests.Catalog;
 
 public class IsbnTests
 {
