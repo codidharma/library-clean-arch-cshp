@@ -2,7 +2,7 @@ using Domain.Common.Exceptions;
 
 namespace Domain.Common.Types;
 
-public sealed class Isbn
+public sealed record Isbn
 {
     const int Isbn10Length = 10;
     const int Isbn13Length = 13;

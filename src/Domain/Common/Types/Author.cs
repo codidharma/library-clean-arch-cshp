@@ -2,7 +2,7 @@ using Domain.Common.Exceptions;
 
 namespace Domain.Common.Types;
 
-public sealed class Author
+public sealed record Author
 {
     public string Name { get; init; }
 
