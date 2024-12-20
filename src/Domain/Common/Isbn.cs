@@ -4,29 +4,78 @@ namespace Domain.Common;
 
 public sealed class Isbn
 {
+    const int Isbn10Length = 10;
+    const int Isbn13Length = 13;
     const string InvalidIsbnExceptionMessage = "The provided Isbn {0} is not a valid ISBN-13 or ISBN-10 number";
     public string Value { get; init; }
-    private Isbn(string isbnNumber)
+    private Isbn(string isbn)
     {
-        Value = isbnNumber;
+        Value = isbn;
 
     }
 
-    public static Isbn Create(string isbnNumber)
+    public static Isbn Create(string isbn)
     {
-        if(! Isbn.IsValid(isbnNumber))
+        if(! Isbn.IsValid(isbn))
         {
-            throw new InvalidIsbnException(string.Format(InvalidIsbnExceptionMessage, isbnNumber));
+            throw new InvalidIsbnException(string.Format(InvalidIsbnExceptionMessage, isbn));
         }
 
-        return new Isbn(isbnNumber);
+        return new Isbn(isbn);
     }
 
-    private static bool IsValid(string isbnNumber)
+    private static bool IsValid(string isbn)
     {
-        const string IsbnValidationRegexPattern = @"/^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/";
-        Regex regex = new Regex(IsbnValidationRegexPattern);
-        bool isValidIsbnNumber = regex.IsMatch(isbnNumber);
-        return isValidIsbnNumber;
+        if(string.IsNullOrWhiteSpace(isbn))
+        {
+            return false;
+        }
+
+        isbn = isbn.Replace("-","").Replace(" ","");
+
+        if(isbn.Length == Isbn10Length)
+        {
+            return IsValidIsbn10(isbn);
+        }
+
+        if(isbn.Length == Isbn13Length)
+        {
+            return IsValidIsbn13(isbn);
+        }
+        return false;
+    }
+
+    private static bool IsValidIsbn10(string isbn)
+    {
+        if(!long.TryParse(isbn.Substring(0,9), out _))
+        {
+            return false;
+        }
+        int sum = 0;
+
+        for(int i = 0; i < 9; i++)
+        {
+            sum += (isbn[i] - '0') * (10 - i);
+        }
+        char checksum = isbn[9];
+        sum += (checksum == 'X' ? 10 : checksum - '0');
+        return sum % 11 == 0;
+    }
+
+    private static bool IsValidIsbn13(string isbn)
+    {
+        if(!long.TryParse(isbn, out _))
+        {
+            return false;
+        }
+        int sum = 0;
+
+        for (int i = 0; i < 12; i++)
+        {
+            sum += (isbn[i] - '0') * (i % 2 == 0 ? 1 : 3);
+        }
+        int checksum = (10 - (sum % 10)) % 10;
+
+        return checksum == (isbn[12] - '0');
     }
 }
