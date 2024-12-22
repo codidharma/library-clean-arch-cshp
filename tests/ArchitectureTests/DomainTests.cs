@@ -10,12 +10,8 @@ public class DomainTests
     [Fact]
     public void DomainProject_ShouldNotHaveAnyDependencies()
     {
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-        Assembly domainAssembly = Assembly.GetAssembly(typeof(Domain.Catalog.Types.Author));
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
-
         var result = Types
-        .InAssembly(domainAssembly)
+        .InAssembly(DomainAssembly)
         .ShouldNot()
         .HaveDependencyOnAny()
         .GetResult();
